@@ -2,14 +2,12 @@ pipeline {
     agent any
     
     parameters { 
-         string(name: 'tomcat_dev', defaultValue: '18.218.156.50', description: 'Staging Server')
-         string(name: 'tomcat_prod', defaultValue: '18.217.101.225', description: 'Production Server')
+         string(name: 'tomcat_dev', defaultValue: '18.191.25.154', description: 'Staging Server')   
     } 
 
     triggers {
          pollSCM('* * * * *') // Polling Source Control
      }
-
 stages{
         stage('Build'){
             steps {
@@ -21,21 +19,10 @@ stages{
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
-        }
-
-        stage ('Deployments'){
-            parallel{
-                stage ('Deploy to Staging'){
-                    steps {
-                        sh "scp -i /home/jenkins/KeyPairpem.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
-                    }
-                }
-
-                stage ("Deploy to Production"){
-                    steps {
-                        sh "scp -i /home/jenkins/KeyPairpem.pem **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat7/webapps"
-                    }
-                }
+        }  
+        stage ('Deploy to Staging'){
+            steps {
+                sh "scp -i /home/jenkins/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
             }
         }
     }

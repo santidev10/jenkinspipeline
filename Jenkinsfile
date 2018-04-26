@@ -22,7 +22,7 @@ stages{
         }  
         stage ('Deploy to Staging'){
             steps {
-                sh "scp -i /home/jenkins/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
+                sh "scp -i /var/lib/jenkins/centos7.pem **/target/*.war centos@${params.tomcat_dev}:/usr/share/apache-tomcat-8.5.30/webapps"
             }
         }
     }

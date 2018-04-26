@@ -33,7 +33,7 @@ stages{
 
                 stage ("Deploy to Production"){
                     steps {
-                        sh "scp -i /var/lib/jenkins/centos7.pem **/target/*.war centos@${params.tomcat_dev}:/usr/share/apache-tomcat-8.5.30/webapps"
+                        sh "scp -i /var/lib/jenkins/centos7.pem **/target/*.war centos@${params.tomcat_prod}:/usr/share/apache-tomcat-8.5.30/webapps"
                     }
                 }
             }
